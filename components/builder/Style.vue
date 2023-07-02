@@ -18,7 +18,7 @@
       class="pa-2 pointer w-25 img"
       @click="
         isShowWeight = true;
-        styleSelected = image?.name;
+        styleSelected = image;
       "
     >
       <v-img :src="`${image.image_src}`" cover></v-img>
@@ -34,22 +34,28 @@
           <span class="text-info">Weight</span>
         </div>
         <div class="d-flex align-center">
-          <div>{{ styleSelected }}</div>
+          <div>{{ styleSelected?.name }}</div>
           <span class="font-weight-bold mx-2">::</span>
           <v-text-field
             v-model.trim="styleWeight"
             variant="outlined"
             hide-details
             density="compact"
-            style="max-width: 80px"
             @keydown.prevent.enter="handleAddWeight"
           ></v-text-field>
+        </div>
+        <div class="d-flex align-center mt-4">
+          <v-img
+            :src="`${styleSelected?.image_src}`"
+            width="350"
+            height="350"
+          ></v-img>
         </div>
       </v-card-text>
       <v-card-actions class="d-flex justify-end">
         <v-btn variant="text" @click="isShowWeight = false">Cancel</v-btn>
         <v-btn variant="flat" color="info" @click="handleAddWeight">
-          Add {{ styleName }}
+          Add
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -112,7 +118,7 @@ const isShowWeight = ref(false);
 
 function handleAddWeight() {
   listStyle.value.push({
-    name: styleSelected.value,
+    name: styleSelected.value?.name,
     weight: styleWeight.value,
   });
   isShowWeight.value = false;
